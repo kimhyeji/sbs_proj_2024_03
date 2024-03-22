@@ -1,19 +1,14 @@
 package org.example;
 
 import org.example.controller.ArticleController;
+import org.example.controller.Controller;
 import org.example.controller.MemberController;
-import org.example.dto.Article;
-import org.example.dto.Member;
-import org.example.util.Util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public void start() {
         System.out.println("== 프로그램 시작 ==");
-
 
         Scanner sc = new Scanner(System.in);
 
@@ -34,27 +29,24 @@ public class App {
                 break;
             }
 
-            if ( cmd.equals("member join") ) {
-                memberController.doJoin();
+            String[] cmdBits = cmd.split(" "); // article write / member join
+            String controllerName = cmdBits[0]; // article / member
+            String actionMethodName = cmdBits[1]; // write / join
+
+            Controller controller = null;
+
+            if ( controllerName.equals("article") ) {
+                controller = articleController;
             }
-            else if ( cmd.equals("article write") ) {
-                articleController.doWrite();
-            }
-            else if ( cmd.startsWith("article list") ) {
-                articleController.showList(cmd);
-            }
-            else if ( cmd.startsWith("article detail ") ) {
-                articleController.showDetail(cmd);
-            }
-            else if ( cmd.startsWith("article modify ") ) {
-                articleController.doModify(cmd);
-            }
-            else if ( cmd.startsWith("article delete ") ) {
-                articleController.doDelete(cmd);
+            else if ( controllerName.equals("member") ) {
+                controller = memberController;
             }
             else {
-                System.out.printf("%s(은)는 존재하지 않는 명령어 입니다.\n", cmd);
+                System.out.println("존재하지 않는 명령어입니다.");
+                continue;
             }
+
+            controller.doAction(cmd, actionMethodName);
         }
 
         sc.close();
