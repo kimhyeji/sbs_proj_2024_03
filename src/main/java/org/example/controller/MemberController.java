@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.Article;
 import org.example.dto.Member;
 import org.example.util.Util;
 
@@ -12,6 +13,7 @@ public class MemberController extends Controller {
     private List<Member> members;
     private String cmd;
     private String actionMethodName;
+    private Member loginedMember;
 
     public MemberController(Scanner sc) {
         this.sc = sc;
@@ -25,6 +27,12 @@ public class MemberController extends Controller {
         switch ( actionMethodName ) {
             case "join":
                 doJoin();
+                break;
+            case "login":
+                doLogin();
+                break;
+            default:
+                System.out.println("존재하지 않는 명령어 입니다.");
                 break;
         }
 
@@ -74,6 +82,28 @@ public class MemberController extends Controller {
         System.out.printf("%d번 회원이 생성되었습니다. 환영합니다!\n", id);
     }
 
+    public void doLogin() {
+        System.out.printf("로그인 아이디 : ");
+        String loginId = sc.nextLine();
+        System.out.printf("로그인 비번 : ");
+        String loginPw = sc.nextLine();
+
+        Member member = getMemberByLoginId(loginId);
+
+        if ( member == null ) {
+            System.out.println("해당회원은 존재하지 않습니다.");
+            return;
+        }
+
+        if ( member.loginPw.equals(loginPw) == false ) {
+            System.out.println("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        loginedMember = member;
+        System.out.printf("로그인 성공! %s님 환영합니다!\n", loginedMember.name);
+    }
+
     private boolean isJoinableLoginId(String loginId) {
         int index = getMemberIndexByLoginId(loginId);
 
@@ -95,5 +125,15 @@ public class MemberController extends Controller {
         }
 
         return -1;
+    }
+
+    private Member getMemberByLoginId(String loginId) {
+        int index = getMemberIndexByLoginId(loginId);
+
+        if ( index == -1 ) {
+            return null;
+        }
+
+        return members.get(index);
     }
 }
