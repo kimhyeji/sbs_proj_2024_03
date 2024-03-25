@@ -24,10 +24,6 @@ public class ArticleController extends Controller{
 
         switch ( actionMethodName ) {
             case "write":
-                if ( isLogined() == false ) {
-                    System.out.println("로그인 후 이용해주세요.");
-                    break;
-                }
                 doWrite();
                 break;
             case "list":
