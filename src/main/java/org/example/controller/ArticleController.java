@@ -1,12 +1,12 @@
 package org.example.controller;
 
-import org.example.Container;
+import org.example.container.Container;
 import org.example.dto.Article;
 import org.example.dto.Member;
 import org.example.service.ArticleService;
+import org.example.service.MemberService;
 import org.example.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,10 +15,12 @@ public class ArticleController extends Controller{
     private String cmd;
     private String actionMethodName;
     private ArticleService articleService;
+    private MemberService memberService;
 
     public ArticleController(Scanner sc) {
         this.sc = sc;
         articleService = Container.articleService;
+        memberService = Container.memberService;
     }
 
     public void doAction(String cmd, String actionMethodName) {
@@ -82,16 +84,7 @@ public class ArticleController extends Controller{
         System.out.println("번호 |   작성자 | 조회 | 제목 ");
         for ( int i = forPrintArticles.size() - 1; i >= 0 ; i-- ) {
             Article article = forPrintArticles.get(i);
-            String writerName = null;
-
-            List<Member> members = Container.memberDao.members;
-
-            for ( Member member : members ) {
-                if ( article.memberId == member.id ) {
-                    writerName = member.name;
-                    break;
-                }
-            }
+            String writerName = memberService.getMemberNameById(article.memberId);
 
             System.out.printf("%4d | %5s | %4d | %s\n", article.id, writerName, article.hit, article.title);
         }
