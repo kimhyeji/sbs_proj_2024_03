@@ -14,7 +14,7 @@ public class MemberDao extends Dao {
 
     public void join(Member member) {
         members.add(member);
-        lastId++;
+        lastId = member.id;
     }
 
     public int getMemberIndexByLoginId(String loginId) {

@@ -32,6 +32,12 @@ public class App {
             }
 
             String[] cmdBits = cmd.split(" "); // article write / member join
+
+            if ( cmdBits.length == 1 ) {
+                System.out.println("존재하지 않는 명령어 입니다.");
+                continue;
+            }
+
             String controllerName = cmdBits[0]; // article / member
             String actionMethodName = cmdBits[1]; // write / join
 
