@@ -29,6 +29,8 @@ public class Article extends Dto {
     }
 
     public Article(Map<String, Object> row) {
+//        super(row);
+        this.id = (int) row.get("id");
         this.title = (String) row.get("title");
         this.body = (String) row.get("body");
         this.memberId = (int) row.get("memberId");

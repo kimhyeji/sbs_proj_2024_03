@@ -29,8 +29,4 @@ public class ExportController extends Controller {
         System.out.println("html을 생성합니다.");
         exportService.makeHtml();
     }
-
-    public void makeTestData() {
-
-    }
 }
