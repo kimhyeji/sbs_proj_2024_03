@@ -17,23 +17,19 @@ public class MemberDao extends Dao {
         dbConnection = Container.getDBConnection();
     }
 
-    public void join(Member member) {
-        members.add(member);
-        lastId = member.id;
+    public int join(Member member) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("INSERT INTO `member` "));
+        sb.append(String.format("SET regDate = NOW(), "));
+        sb.append(String.format("updateDate = NOW(), "));
+        sb.append(String.format("loginId = '%s' ", member.loginId));
+        sb.append(String.format("loginPw = '%s' ", member.loginPw));
+        sb.append(String.format("`name` = '%s' ", member.name));
+
+        return dbConnection.insert(sb.toString());
     }
 
-    public int getMemberIndexByLoginId(String loginId) {
-        int i = 0;
-
-        for ( Member member : members ) {
-            if ( member.loginId.equals(loginId) ) {
-                return i;
-            }
-            i++;
-        }
-
-        return -1;
-    }
 
     public Member getMemberByLoginId(String loginId) {
         StringBuilder sb = new StringBuilder();
@@ -45,15 +41,5 @@ public class MemberDao extends Dao {
         Map<String, Object> memberRow = dbConnection.selectRow((sb.toString()));
 
         return new Member(memberRow);
-    }
-
-    public String getMemberNameById(int id) {
-        for ( Member member : members ) {
-            if ( member.id == id ) {
-                return member.name;
-            }
-        }
-
-        return "";
     }
 }
