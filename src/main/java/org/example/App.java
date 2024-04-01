@@ -5,10 +5,19 @@ import org.example.controller.ArticleController;
 import org.example.controller.Controller;
 import org.example.controller.ExportController;
 import org.example.controller.MemberController;
+import org.example.db.DBConnection;
 
 import java.util.Scanner;
 
 public class App {
+    public App() {
+        DBConnection.DB_NAME = "sbs_proj";
+        DBConnection.DB_USER = "sbsst";
+        DBConnection.DB_PASSWORD = "sbs123414";
+        DBConnection.DB_PORT = 3306;
+
+        Container.getDBConnection().connect();
+    }
     public void start() {
         System.out.println("== 프로그램 시작 ==");
 
