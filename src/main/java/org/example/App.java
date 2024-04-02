@@ -17,6 +17,9 @@ public class App {
         DBConnection.DB_PORT = 3306;
 
         Container.getDBConnection().connect();
+
+        // 현재 게시판을 1번 게시판으로 선택
+        Container.getSession().setCurrentBoard(Container.articleService.getBoard(1));
     }
     public void start() {
         System.out.println("== 프로그램 시작 ==");

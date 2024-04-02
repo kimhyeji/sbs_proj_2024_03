@@ -14,9 +14,7 @@ public class Article extends Dto {
     public int memberId;
     public int boardId;
 
-    public Article(int id, String regDate, int memberId, int boardId, String title, String body, int hit) {
-        this.id = id;
-        this.regDate = regDate;
+    public Article(int memberId, int boardId, String title, String body, int hit) {
         this.memberId = memberId;
         this.boardId = boardId;
         this.title = title;
@@ -24,13 +22,12 @@ public class Article extends Dto {
         this.hit = hit;
     }
 
-    public Article(int id, String regDate, int memberId, int boardId, String title, String body) {
-        this(id, regDate, memberId, boardId, title, body, 0);
+    public Article(int memberId, int boardId, String title, String body) {
+        this(memberId, boardId, title, body, 0);
     }
 
     public Article(Map<String, Object> row) {
-//        super(row);
-        this.id = (int) row.get("id");
+        super(row);
         this.title = (String) row.get("title");
         this.body = (String) row.get("body");
         this.memberId = (int) row.get("memberId");
