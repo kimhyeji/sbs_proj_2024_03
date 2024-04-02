@@ -88,7 +88,7 @@ public class App {
 
             switch ( actionName ) {
                 case "member/login":
-                case "memeber/join":
+                case "member/join":
                     if (Container.getSession().isLogined() ) {
                         System.out.println("로그아웃 후 이용해주세요.");
                         continue;

@@ -31,6 +31,23 @@ public class ArticleDao extends Dao {
 
         return dbConnection.insert(sb.toString());
     }
+    public Article getForPrintArticle(int id) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT A.*, M.name AS writerName "));
+        sb.append(String.format("FROM article AS A "));
+        sb.append(String.format("INNER JOIN `member` AS M "));
+        sb.append(String.format("ON A.memberId = M.id "));
+        sb.append(String.format("WHERE A.id = %d ", id));
+
+        Map<String, Object> row = dbConnection.selectRow(sb.toString());
+
+        if ( row.isEmpty() ) {
+            return null;
+        }
+
+        return new Article(row);
+    }
 
     public List<Article> getArticles() {
         StringBuilder sb = new StringBuilder();
