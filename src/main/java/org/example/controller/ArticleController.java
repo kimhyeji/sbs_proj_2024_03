@@ -177,8 +177,8 @@ public class ArticleController extends Controller{
             return;
         }
 
-        articleService.remove(foundArticle);
+        articleService.delete(foundArticle.id);
 
-        System.out.printf("%d번 게시물이 삭제되었습니다.\n", id);
+        System.out.printf("%d번 게시물이 삭제되었습니다.\n", foundArticle.id);
     }
 }

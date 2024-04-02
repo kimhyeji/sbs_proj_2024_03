@@ -51,5 +51,7 @@ public class ArticleService {
         articleDao.modify(id, title, body);
     }
 
-
+    public void delete(int id) {
+        articleDao.delete(id);
+    }
 }
