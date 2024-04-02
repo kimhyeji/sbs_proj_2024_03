@@ -5,7 +5,6 @@ import org.example.dto.Article;
 import org.example.dto.Member;
 import org.example.service.ArticleService;
 import org.example.service.MemberService;
-import org.example.util.Util;
 
 import java.util.List;
 import java.util.Scanner;

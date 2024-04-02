@@ -21,13 +21,13 @@ public class ArticleDao extends Dao {
     public int write(Article article) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(String.format("INSERT INTO article"));
+        sb.append(String.format("INSERT INTO article "));
         sb.append(String.format("SET regDate = NOW(), "));
         sb.append(String.format("updateDate = NOW(), "));
         sb.append(String.format("title = '%s', ", article.title));
         sb.append(String.format("`body` = '%s', ", article.body));
         sb.append(String.format("memberId = %d, ", article.memberId));
-        sb.append(String.format("boardId = %d, ", article.boardId));
+        sb.append(String.format("boardId = %d ", article.boardId));
 
         return dbConnection.insert(sb.toString());
     }
