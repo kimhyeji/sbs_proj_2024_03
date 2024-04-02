@@ -2,7 +2,6 @@ package org.example.dao;
 
 public class Dao {
     protected int lastId;
-
     public Dao() {
         lastId = 0;
     }

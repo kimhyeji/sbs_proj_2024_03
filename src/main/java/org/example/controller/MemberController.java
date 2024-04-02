@@ -3,29 +3,21 @@ package org.example.controller;
 import org.example.container.Container;
 import org.example.dto.Member;
 import org.example.service.MemberService;
-import org.example.util.Util;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class MemberController extends Controller {
     private Scanner sc;
-    private String cmd;
-    private String actionMethodName;
     private MemberService memberService;
     private Session session;
 
-    public MemberController(Scanner sc) {
-        this.sc = sc;
-
-        memberService = Container.memberService;
+    public MemberController() {
+        sc = Container.getScanner();
         session = Container.getSession();
+        memberService = Container.memberService;
     }
 
     public void doAction(String cmd, String actionMethodName) {
-        this.cmd = cmd;
-        this.actionMethodName = actionMethodName;
-
         switch ( actionMethodName ) {
             case "join":
                 doJoin();

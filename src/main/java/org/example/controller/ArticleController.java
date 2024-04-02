@@ -13,21 +13,19 @@ import java.util.Scanner;
 public class ArticleController extends Controller{
     private Scanner sc;
     private String cmd;
-    private String actionMethodName;
     private ArticleService articleService;
     private MemberService memberService;
     private Session session;
 
-    public ArticleController(Scanner sc) {
-        this.sc = sc;
+    public ArticleController() {
+        sc = Container.getScanner();
+        session = Container.getSession();
         articleService = Container.articleService;
         memberService = Container.memberService;
-        session = Container.getSession();
     }
 
     public void doAction(String cmd, String actionMethodName) {
         this.cmd = cmd;
-        this.actionMethodName = actionMethodName;
 
         switch ( actionMethodName ) {
             case "write":

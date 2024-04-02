@@ -7,8 +7,6 @@ import org.example.controller.ExportController;
 import org.example.controller.MemberController;
 import org.example.db.DBConnection;
 
-import java.util.Scanner;
-
 public class App {
     public App() {
         DBConnection.DB_NAME = "sbs_proj";
@@ -33,18 +31,13 @@ public class App {
         System.out.println("7. 게시물 작성(로그인 후 이용가능) : article write");
         System.out.println("8. 게시물 수정/삭제(로그인 후 이용가능) : article modify/delete [게시물 번호]");
 
-        Scanner sc = new Scanner(System.in);
-
-        MemberController memberController = new MemberController(sc);
-        ArticleController articleController = new ArticleController(sc);
-        ExportController exportController = new ExportController(sc);
-
-//        articleController.makeTestData();
-//        memberController.makeTestData();
+        MemberController memberController = new MemberController();
+        ArticleController articleController = new ArticleController();
+        ExportController exportController = new ExportController();
 
         while ( true ) {
             System.out.printf("명령어) ");
-            String cmd = sc.nextLine();
+            String cmd = Container.getScanner().nextLine();
             cmd = cmd.trim();
 
             if ( cmd.length() == 0 ) {
@@ -87,7 +80,7 @@ public class App {
                 case "article/write":
                 case "article/delete":
                 case "article/modify":
-                case "memeber/logout":
+                case "member/logout":
                     if ( Container.getSession().isLogined() == false ) {
                         System.out.println("로그인 후 이용해주세요.");
                         continue;
@@ -108,7 +101,9 @@ public class App {
             controller.doAction(cmd, actionMethodName);
         }
 
-        sc.close();
+        Container.getDBConnection().close();
+        Container.getScanner().close();
+
         System.out.println("== 프로그램 끝 ==");
     }
 }
