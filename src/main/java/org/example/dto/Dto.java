@@ -23,6 +23,7 @@ public class Dto {
     }
 
     public Dto(Map<String, Object> row) {
-        this((int) row.get("id"), (String) row.get("regDate"));
+        this(((Integer) row.get("id")) != null ? ((Integer) row.get("id")).intValue() : 0,
+                (String) row.get("regDate"));
     }
 }

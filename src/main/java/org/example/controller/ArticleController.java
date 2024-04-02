@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.container.Container;
 import org.example.dto.Article;
+import org.example.dto.Board;
 import org.example.dto.Member;
 import org.example.service.ArticleService;
 import org.example.service.MemberService;
@@ -44,10 +45,35 @@ public class ArticleController extends Controller{
             case "delete":
                 doDelete();
                 break;
+            case "currentBoard":
+                doCurrentBoard();
+                break;
+            case "changeBoard":
+                doChangeBoard();
+                break;
             default:
                 System.out.println("존재하지 않는 명령어 입니다.");
                  break;
         }
+    }
+
+    private void doChangeBoard() {
+        String[] cmdBits = cmd.split(" ");
+        int boardId = Integer.parseInt(cmdBits[2]);
+
+        Board board = articleService.getBoard(boardId);
+
+        if ( board == null ) {
+            System.out.println("해당 게시판은 존재하지 않습니다.");
+        } else {
+            System.out.printf("[%s] 게시판으로 변경되었습니다.\n", board.getName());
+            session.setCurrentBoard(board);
+        }
+    }
+
+    private void doCurrentBoard() {
+        Board board = session.getCurrentBoard();
+        System.out.printf("현재 게시판 : %s 게시판\n", board.getName());
     }
 
     public void doWrite() {
