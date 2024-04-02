@@ -19,7 +19,8 @@ public class MemberService {
     public Member getMemberByLoginId(String loginId) {
         return memberDao.getMemberByLoginId(loginId);
     }
-    public String getMemberNameById(int memberId) {
-        return null;
+
+    public Member getMember(int memberId) {
+        return memberDao.getMember(memberId);
     }
 }
