@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.container.Container;
 import org.example.dao.ArticleDao;
 import org.example.dto.Article;
+import org.example.dto.ArticleReply;
 import org.example.dto.Board;
 import java.util.List;
 
@@ -44,5 +45,15 @@ public class ArticleService {
 
     public void delete(int id) {
         articleDao.delete(id);
+    }
+
+    // 댓글 =======================================
+
+    public int replyWrite(int articleId, int memberId, String replyBody) {
+        return articleDao.replyWrite(articleId, memberId, replyBody);
+    }
+
+    public List<ArticleReply> getForPrintArticleReplies(int articleId) {
+        return articleDao.getForPrintArticleReplies(articleId);
     }
 }

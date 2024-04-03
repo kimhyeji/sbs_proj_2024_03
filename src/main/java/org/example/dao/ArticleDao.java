@@ -3,6 +3,7 @@ package org.example.dao;
 import org.example.container.Container;
 import org.example.db.DBConnection;
 import org.example.dto.Article;
+import org.example.dto.ArticleReply;
 import org.example.dto.Board;
 
 import java.util.ArrayList;
@@ -138,5 +139,40 @@ public class ArticleDao extends Dao {
         sb.append(String.format("WHERE id = %d ", id));
 
         return dbConnection.delete(sb.toString());
+    }
+
+    // 댓글 =======================================
+
+    public int replyWrite(int articleId, int memberId, String replyBody) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("INSERT INTO articleReply "));
+        sb.append(String.format("SET regDate = NOW(), "));
+        sb.append(String.format("updateDate = NOW(), "));
+        sb.append(String.format("`body` = '%s', ", replyBody));
+        sb.append(String.format("memberId = %d, ", memberId));
+        sb.append(String.format("articleId = %d ", articleId));
+
+        return dbConnection.insert(sb.toString());
+    }
+
+    public List<ArticleReply> getForPrintArticleReplies(int articleId) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("SELECT R.* "));
+        sb.append(String.format("FROM `articleReply` AS R "));
+        sb.append(String.format("INNER JOIN `article` AS A "));
+        sb.append(String.format("ON R.articleId = A.id "));
+        sb.append(String.format("WHERE R.articleId = %d ", articleId));
+        sb.append(String.format("ORDER BY R.id DESC"));
+
+        List<ArticleReply> articleReplies = new ArrayList<>();
+        List<Map<String, Object>> rows = dbConnection.selectRows(sb.toString());
+
+        for ( Map<String, Object> row : rows ) {
+            articleReplies.add(new ArticleReply((row)));
+        }
+
+        return articleReplies;
     }
 }
