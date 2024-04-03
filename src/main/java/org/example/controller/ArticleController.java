@@ -61,30 +61,20 @@ public class ArticleController extends Controller{
         System.out.println("2. 자유 게시판");
         System.out.print("게시판 번호를 입력하세요) ");
 
-        int boardId = 0;
-
-        try {
-            boardId = sc.nextInt();
-            sc.nextLine();
-        } catch ( InputMismatchException e) {
-            System.out.println("잘못 입력하셨습니다.");
-            sc.nextLine();
-            return;
-        }
-
+        int boardId = checkScNum();
         Board board = articleService.getBoard(boardId);
 
         if ( board == null ) {
             System.out.println("해당 게시판은 존재하지 않습니다.");
         } else {
-            System.out.printf("[%s] 게시판으로 변경되었습니다.\n", board.getName());
+            System.out.printf("[%s 게시판]으로 변경되었습니다.\n", board.getName());
             session.setCurrentBoard(board);
         }
     }
 
     private void doCurrentBoard() {
         Board board = session.getCurrentBoard();
-        System.out.printf("현재 게시판 : %s 게시판\n", board.getName());
+        System.out.printf("현재 게시판 : [%s 게시판]\n", board.getName());
     }
 
     public void doWrite() {
@@ -102,16 +92,19 @@ public class ArticleController extends Controller{
     }
 
     public void showList() {
-//        String searchKeyword = cmd.substring("article list".length()).trim();
-//        List<Article> forPrintArticles = articleService.getForPrintArticles(searchKeyword);
+        String searchKeyword = cmd.substring("article list".length()).trim();
+        String boardCode = Container.getSession().getCurrentBoard().getCode();
 
-//        if ( forPrintArticles.size() == 0 ) {
-//            System.out.println("검색결과가 존재하지 않습니다.");
-//            return;
-//        }
+        List<Article> forPrintArticles = articleService.getForPrintArticles(boardCode, searchKeyword);
 
-        List<Article> forPrintArticles = articleService.getArticles();
+        if ( forPrintArticles.size() == 0 ) {
+            System.out.println("검색결과가 존재하지 않습니다.");
+            return;
+        }
 
+        String boardName = Container.getSession().getCurrentBoard().getName();
+
+        System.out.printf("[%s 게시판]\n", boardName);
         System.out.println("번호 |   작성자 | 조회 | 제목 ");
         for ( int i = forPrintArticles.size() - 1; i >= 0 ; i-- ) {
             Article article = forPrintArticles.get(i);
@@ -122,6 +115,8 @@ public class ArticleController extends Controller{
     }
 
     public void showDetail() {
+        System.out.println("게시물 번호를 입력하세요) ");
+
         int id = checkScNum();
 
         if ( id == 0 ) {
@@ -148,6 +143,8 @@ public class ArticleController extends Controller{
     }
 
     public void doModify() {
+        System.out.println("수정할 게시물 번호를 입력하세요) ");
+        
         int id = checkScNum();
 
         if ( id == 0 ) {
@@ -179,6 +176,8 @@ public class ArticleController extends Controller{
     }
 
     public void doDelete() {
+        System.out.println("삭제할 게시물 번호를 입력하세요) ");
+        
         int id = checkScNum();
 
         if ( id == 0 ) {
@@ -205,8 +204,6 @@ public class ArticleController extends Controller{
     }
 
     public int checkScNum() {
-        System.out.print("게시물 번호를 입력하세요) ");
-
         int id = 0;
 
         try {
